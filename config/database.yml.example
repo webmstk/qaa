@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: postgres
+
+development:
+  <<: *default
+  database: qaa_development
+
+test:
+  <<: *default
+  database: qaa_test
+
+production:
+  <<: *default
+  database: qaa_production
+  username: qaa
+  password: <%= ENV['QAA_DATABASE_PASSWORD'] %>
