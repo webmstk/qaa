@@ -1,0 +1,16 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        question:
+          attributes:
+            title: 
+              too_short: Заголовок должен быть не менее 5 символов
+            body:
+              blank: Заполните вопрос
+
+  helpers:
+    label:
+      question:
+        title: Заголовок
+        body: Сообщение

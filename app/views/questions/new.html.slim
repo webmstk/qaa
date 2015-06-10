@@ -1,0 +1,19 @@
+- if @question.errors.any?
+  .alert.alert-danger
+    b Не удалось сохранить вопрос:
+    ul
+      - @question.errors.full_messages.each do |msg|
+        li= msg
+
+h2 Задать вопрос
+
+= form_for @question do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
+
+  .form-group
+    = f.label :body
+    = f.text_area :body, class: 'form-control'
+
+  = f.submit 'Задать вопрос', class: 'btn btn-default'

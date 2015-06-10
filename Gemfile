@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'slim-rails'
+gem 'devise'
+gem 'bootstrap-sass', '~> 3.3.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -49,5 +51,7 @@ end
 group :test do
 	gem 'factory_girl_rails'
 	gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'launchy'
 end
 

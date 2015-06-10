@@ -1,0 +1,20 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: не введен email.
+              invalid: неправильный email.
+            password:
+              too_short: пароль слишком короткий.
+              blank: не введен пароль.
+            password_confirmation:
+              confirmation: пароли не совпадают.
+
+  helpers:
+    label:
+      user:
+        password: Пароль
+        password_confirmation: Подтверждение пароля

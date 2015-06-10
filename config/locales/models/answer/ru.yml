@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        answer:
+          attributes:
+            body:
+              blank: Ответ не может быть пустым
+
+  helpers:
+    label:
+      answer:
+        body: Сообщение
+
