@@ -7,4 +7,19 @@ RSpec.describe Answer, type: :model do
 
   it { should belong_to :user }
   it { should belong_to :question }
+
+  it { should respond_to :best }
+  it { should respond_to :toggle_best }
+
+  it 'should toggle best answer' do
+    answer = create(:answer, best: false)
+
+    answer.toggle_best
+    answer.reload
+    expect(answer.best).to eq true
+
+    answer.toggle_best
+    answer.reload
+    expect(answer.best).to eq false
+  end
 end

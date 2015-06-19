@@ -48,12 +48,18 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
 
+group :development do
+  gem 'better_errors'
+end
+
 group :test do
 	gem 'factory_girl_rails'
 	gem 'shoulda-matchers'
   gem 'capybara'
   gem 'launchy'
   gem 'selenium-webdriver'
+  gem 'capybara-webkit'
   gem 'database_cleaner'
+  gem 'poltergeist'
 end
 

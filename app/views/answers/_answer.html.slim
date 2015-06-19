@@ -1,0 +1,25 @@
+.answer id="answer-#{answer.id}" class=(answer.best ? 'best_answer' : '')
+  .message = answer.body
+  - if user_signed_in?
+    .controls
+      - if current_user.id == answer.user_id
+        = link_to 'удалить', answer_path(question_id: @question, id: answer),
+                           method: :delete,
+                           id: "del_answer_#{answer.id}",
+                           remote: true
+        = link_to 'редактировать', '', class: 'edit-answer-link',
+                                     data: { answer_id: answer.id }
+      - if current_user.id == @question.user_id
+        = link_to (answer.best ? 'не лучший ответ' : 'лучший ответ'),
+                                answer_best_path(question_id: @question, answer_id: answer),
+                                class: 'choose-best-answer',
+                                data: { answer_id: answer.id },
+                                remote: true
+= form_for answer, remote: true do |f|
+  .form-group
+    = f.label :body
+    = f.text_area :body, class: 'form-control'
+
+  = f.button 'отмена', class: 'btn btn-default cancel'
+  = ' '
+  = f.submit 'сохранить', class: 'btn btn-primary'

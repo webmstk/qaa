@@ -1,2 +1,18 @@
-$('.answers').append('<%= j render 'questions/answer', answer: @answer %>');
-$('#answer_body').val('');
+<% if @answer.errors.any? %>
+
+  errors = ''
+
+  <% @answer.errors.full_messages.each do |msg| %>
+    errors += '<li><%= msg %></li>'
+  <% end %>
+
+  $('#new_answer').before('<div class="answer-errors alert alert-danger">\
+                                      <b>Не удалось сохранить ответ</b><ul>' + errors + '</ul></div>')
+
+<% else %>
+
+  $('.no-answers').remove();
+  $('.answers').append('<%= j render @answer %>');
+  $('#answer_body').val('');
+
+<% end %>

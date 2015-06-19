@@ -1,0 +1,20 @@
+<% if @question.errors.present? %>
+
+  var errors = '';
+
+  <% @question.errors.full_messages.each do |msg| %>
+    errors += '<li><%= msg %></li>'
+  <% end %>
+
+  $('.question-errors').removeClass('hidden')
+                       .html('<b>Не удалось сохранить вопрос</b><ul>' + errors + '</ul>');
+
+<% else %>
+
+var question = $('#question-id-<%= @question.id %>');
+
+question.html('<%= j render 'question' %>').removeClass('hidden');
+$('#edit_question_<%= @question.id %>' ).addClass('hidden');
+$('.question-errors').empty().addClass('hidden');
+
+<% end %>

@@ -1,10 +1,31 @@
-h2= @question.title
-p =@question.body
-hr
+- if params['edit'] != 'Y'
+  - form_edit_class = 'hidden'
+- else
+  - show_question_class = 'hidden'
 
+.question id="question-id-#{@question.id}" class="#{show_question_class}"
+  = render 'question'
+
+= form_for @question, html: { class: "edit-question #{form_edit_class}" }, remote: true do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
+  .form-group
+    = f.label :body
+    = f.text_area :body, class: 'form-control'
+  .form-group
+    = f.button 'Отмена', class: 'btn btn-default cancel'
+    = ' '
+    = f.submit 'Сохранить', class: 'btn btn-primary'
+
+  .question-errors.alert.alert-danger.hidden
+
+h3 Ответы
 .answers
   - if @answers.any?
-    = render 'answers'
+    = render 'answers/answers', answers: @answers
+  - else
+    .no-answers На этот вопрос пока нет ответов
 
 = form_for([@question, @answer], remote: true) do |f|
   .form-group
@@ -12,6 +33,3 @@ hr
     = f.text_area :body, class: 'form-control'
   .form-group
     = f.submit 'Ответить', class: 'btn btn-default'
-
-- if current_user && current_user.id == @question.user_id
-  = link_to 'Удалить вопрос', question_path(@question), method: :delete

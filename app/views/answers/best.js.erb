@@ -1,0 +1,10 @@
+var answers = $('.answer').not('#answer-<%= @answer.id %>');
+var answer = $('#answer-<%= @answer.id %>');
+
+answers.removeClass('best_answer')
+       .find('.choose-best-answer')
+       .text('лучший ответ');
+
+answer.toggleClass('best_answer')
+      .find('.choose-best-answer')
+      .text('<%= @answer.best ? 'не лучший ответ' : 'лучший ответ' %>');

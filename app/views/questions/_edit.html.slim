@@ -1,0 +1,18 @@
+- if @question.errors.present?
+  .errors.alert.alert-danger
+    b Не удалось сохранить вопрос
+    ul
+      - @question.errors.full_messages.each do |msg|
+        li= msg
+
+= form_for @question, remote: true do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
+
+  .form-group
+    = f.label :body
+    = f.text_area :body, class: 'form-control'
+
+  = f.submit 'сохранить', class: 'btn btn-default'
+hr

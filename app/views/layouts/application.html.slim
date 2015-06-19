@@ -8,7 +8,7 @@ html
   = csrf_meta_tags
 
   body
-  
+
     nav class="navbar navbar-inverse navbar-fixed-top"
       .container
         .navbar-header
@@ -18,7 +18,7 @@ html
             span.icon-bar
             span.icon-bar
           a.navbar-brand href="/" Q&A
-          
+
         #navbar class="collapse navbar-collapse"
           ul class="nav navbar-nav navbar-right"
             li
@@ -39,7 +39,7 @@ html
             = alert
 
         == yield
-      
+
       #sidebar class="col-xs-3 sidebar-offcanvas"
         .list-group
           = link_to 'Вопросы', questions_path, class: 'list-group-item'

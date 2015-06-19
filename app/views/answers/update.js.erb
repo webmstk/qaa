@@ -1,0 +1,21 @@
+$('.answers .answer-errors').remove();
+
+<% if @answer.errors.any? %>
+
+  var errors = '';
+
+  <% @answer.errors.full_messages.each do |msg| %>
+    errors = "<li><%= msg %></li>"
+  <% end %>
+
+  $('#edit_answer_<%= @answer.id %>').after('<div class="answer-errors alert alert-danger">\
+                                      <b>Не удалось сохранить ответ</b><ul>' + errors + '</ul></div>')
+
+<% else %>
+
+  var answer = $('#answer-<%= @answer.id %>');
+
+  $('#edit_answer_<%= @answer.id %>').remove();
+  answer.replaceWith('<%= j render @answer %>').show();
+
+<% end %>

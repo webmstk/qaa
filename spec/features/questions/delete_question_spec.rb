@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'delete question', %q{
   In order to delete question
@@ -14,19 +14,19 @@ feature 'delete question', %q{
 
   scenario 'authenticated user deletes his own question (question_path)' do
     sign_in(user)
-    
+
     visit question_path(question)
-    click_on 'Удалить вопрос'
-    
+    click_on 'удалить'
+
     expect(current_path).to eq questions_path
     expect(page).not_to have_content question.title
     expect(page).not_to have_content question.body
   end
-  
-  
+
+
   scenario 'authenticated user deletes his own question (questions_path)' do
     sign_in(user)
-    
+
     visit questions_path
     click_link "del_question_#{question.id}"
 
@@ -38,14 +38,14 @@ feature 'delete question', %q{
 
   scenario 'non-authenticated user tries to delete question (question_path)' do
     visit question_path(question)
-    
+
     expect(page).not_to have_content 'Удалить вопрос'
   end
 
 
   scenario 'non-authenticated user tries to delete question (questions_path)' do
     visit questions_path
-    
+
     expect(page).not_to have_content 'удалить вопрос'
   end
 
@@ -54,11 +54,11 @@ feature 'delete question', %q{
             (question_path)' do
     sign_in(user)
     visit question_path(another_user_question)
-    
+
     expect(page).not_to have_content 'Удалить вопрос'
   end
-  
-  
+
+
   scenario 'authenticated user tries to delete somebody\'s question
             (questions_path)' do
     sign_in(user)
@@ -68,6 +68,6 @@ feature 'delete question', %q{
     expect(page).not_to \
                  have_selector("#del_question_#{another_user_question.id}")
   end
-  
+
 
 end

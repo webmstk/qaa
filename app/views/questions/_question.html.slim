@@ -1,0 +1,8 @@
+    h2= @question.title
+    p =@question.body
+
+    - if user_signed_in? && @question.user == current_user
+      .controls
+        = link_to 'редактировать', '', class: 'edit-question-link', data: { question_id: @question.id }
+        = link_to 'удалить', question_path(@question), method: :delete
+    hr

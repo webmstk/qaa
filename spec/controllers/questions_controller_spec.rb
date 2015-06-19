@@ -58,14 +58,14 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #create' do
     sign_in_user
-    
+
     context 'with valid attributes' do
       it 'saves the new question in the database' do
         expect do
           post :create, question: attributes_for(:question)
         end.to change(Question, :count).by(1)
       end
-      
+
       it 'belongs to user' do
         post :create, question: attributes_for(:question)
         expect(assigns(:question).user_id).to eq subject.current_user.id
@@ -90,35 +90,73 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-  
-  
+
+
+  describe 'PATCH #update' do
+    sign_in_user
+
+    context 'valid attributes' do
+      it 'assigns the requested question to @question' do
+        patch :update, id: question, question: attributes_for(:question), format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes question attributes' do
+        patch :update, id: question, question: { title: 'new title', body: 'new body' }, format: :js
+        question.reload
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body'
+      end
+
+      it 'renders :update view' do
+        patch :update, id: question, question: attributes_for(:question), format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'invalid attributes' do
+      before { patch :update, id: question, question: { title: 'new title', body: nil }, format: :js }
+
+      it 'does not change question attributes' do
+        question.reload
+        expect(question.title).to eq 'question title'
+        expect(question.body).to eq 'question body'
+      end
+
+      it 'renders :update view' do
+        expect(response).to render_template :update
+      end
+    end
+  end
+
+
   describe 'DELETE #destroy' do
     sign_in_user
 
     context "own question" do
       before { question.update_attribute(:user, @user) }
-    
+
       it 'deletes question' do
         expect { delete :destroy, id: question}.to change(Question, :count).by(-1)
       end
-      
+
       it 'redirects to index view' do
         delete :destroy, id: question
         expect(response).to redirect_to questions_path
       end
     end
-    
+
     context 'somebody\'s else question' do
       let(:another_user) { create(:user) }
       let(:another_user_question) { create(:question, user: another_user) }
-    
+
       it 'doesn\'t delete question' do
         another_user_question
         expect do
           delete :destroy, id: another_user_question
         end.not_to change(Question, :count)
       end
-      
+
       it 'redirects to show view' do
         delete :destroy, id: another_user_question
         expect(response).to redirect_to question_path(another_user_question)

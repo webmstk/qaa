@@ -4,4 +4,8 @@ class Question < ActiveRecord::Base
 
 	validates :title, :body, :user_id, presence: true
 	validates :title, length: { in: 5..140 }
+
+  def best_answer
+    Answer.where({ question_id: self.id, best: true }).take
+  end
 end

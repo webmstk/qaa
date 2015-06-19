@@ -1,0 +1,4 @@
+$('#answer-<%= @answer.id %>').remove();
+
+if($('.answers .answer:visible').length == 0)
+  $('.answers').html('<div class="no-answers">На этот вопрос пока нет ответов</div>');
