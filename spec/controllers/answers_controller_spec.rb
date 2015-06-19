@@ -10,18 +10,18 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'save answer to the database' do
         expect do
-          post :create, question_id: question.id, answer: attributes_for(:answer)
+          post :create, question_id: question, answer: attributes_for(:answer), format: :js
         end.to change(question.answers, :count).by(1)
       end
       
       it 'belongs to user' do
-        post :create, question_id: question.id, answer: attributes_for(:answer)
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer).user_id).to eq subject.current_user.id
       end
 
       it 'redirects to :show view of requested question' do
-        post :create, question_id: question.id, answer: attributes_for(:answer)
-        expect(response).to redirect_to question_path(question.id)
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :create
       end
     end
 
@@ -30,13 +30,13 @@ RSpec.describe AnswersController, type: :controller do
       
       it 'does not save answer to the database' do
         expect do
-          post :create, question_id: question.id, answer: attributes_for(:invalid_answer)
+          post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
         end.to_not change(Answer, :count)
       end
 
       it 're-render :create view' do
-        post :create, question_id: question.id, answer: attributes_for(:invalid_answer)
-        expect(response).to render_template 'questions/show'
+        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
+        expect(response).to render_template :create
       end
     end
   end

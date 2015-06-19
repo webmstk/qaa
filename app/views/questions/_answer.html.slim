@@ -1,0 +1,3 @@
+p= answer.body
+- if current_user && current_user.id == answer.user_id
+  = link_to 'удалить', question_answer_path(question_id: @question, id: answer), method: :delete, id: "del_answer_#{answer.id}"

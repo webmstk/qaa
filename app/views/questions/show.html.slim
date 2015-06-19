@@ -2,13 +2,11 @@ h2= @question.title
 p =@question.body
 hr
 
-- if @answers.any?
-  - @answers.each do |answer|
-    p= answer.body
-    - if current_user && current_user.id == answer.user_id
-      = link_to 'удалить', question_answer_path(question_id: @question, id: answer), method: :delete, id: "del_answer_#{answer.id}"
+.answers
+  - if @answers.any?
+    = render 'answers'
 
-= form_for([@question, @answer]) do |f|
+= form_for([@question, @answer], remote: true) do |f|
   .form-group
     = f.label :body
     = f.text_area :body, class: 'form-control'
