@@ -1,5 +1,16 @@
 .answer id="answer-#{answer.id}" class=(answer.best ? 'best_answer' : '')
   .message = answer.body
+  - if answer.attachments.any?
+    ul.answer-files
+      - answer.attachments.each do |a|
+        li id="question-file-#{a.id}"
+          = link_to a.file.filename, a.file.url
+          - if user_signed_in? && current_user == a.attachable.user
+            span
+              | &nbsp;[&nbsp;
+              = link_to 'удалить', attachment_path(a), method: :delete, remote: true
+              | &nbsp;]
+
   - if user_signed_in?
     .controls
       - if current_user.id == answer.user_id

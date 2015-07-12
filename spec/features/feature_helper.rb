@@ -13,6 +13,7 @@ RSpec.configure do |config|
   # DatabaseCleaner
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
+    FileUtils.rm_r("#{Rails.root}/public/uploads/")
   end
 
   config.before(:each) do

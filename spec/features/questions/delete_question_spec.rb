@@ -14,9 +14,11 @@ feature 'delete question', %q{
 
   scenario 'authenticated user deletes his own question (question_path)' do
     sign_in(user)
-
     visit question_path(question)
-    click_on 'удалить'
+
+    within '.question .controls' do
+      click_on 'удалить'
+    end
 
     expect(current_path).to eq questions_path
     expect(page).not_to have_content question.title

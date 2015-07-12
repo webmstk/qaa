@@ -1,5 +1,17 @@
     h2= @question.title
-    p =@question.body
+    p= @question.body
+    - if @question.attachments.any?
+      p Прикрепленные файлы:
+      ul.question-files
+        - @question.attachments.each do |a|
+          li id="question-file-#{a.id}"
+            = link_to a.file.filename, a.file.url
+            - if user_signed_in? && current_user == a.attachable.user
+              span
+                | &nbsp;[&nbsp;
+                = link_to 'удалить', attachment_path(a), method: :delete, remote: true
+                | &nbsp;]
+
 
     - if user_signed_in? && @question.user == current_user
       .controls

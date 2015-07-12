@@ -23,16 +23,16 @@ feature 'Create question', %q{
     expect(page).to have_content question.title
     expect(page).to have_content question.body
   end
-  
+
   scenario 'Authenticated user creates invalid question' do
     sign_in(user)
-    
+
     visit questions_path
     click_on 'Задать вопрос'
     fill_in 'Заголовок', with: '123'
     fill_in 'Сообщение', with: ''
     click_button 'Задать вопрос'
-    
+
     expect(current_path).to eq questions_path
     expect(page).to have_content 'Не удалось сохранить вопрос'
   end

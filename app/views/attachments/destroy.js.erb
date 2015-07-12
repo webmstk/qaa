@@ -1,0 +1,5 @@
+<% if @attachment.persisted? %>
+  alert('Не получилось удалить вопрос!');
+<% else %>
+  $('#question-file-<%= @attachment.id %>').remove();
+<% end %>

@@ -32,7 +32,9 @@ feature 'Delete answer', %q{
   scenario 'non-authenticated user tries to delete answer' do
     visit question_path(question)
 
-    expect(page).not_to have_content('удалить')
+    within '.answers' do
+      expect(page).not_to have_content('удалить')
+    end
   end
 
 end

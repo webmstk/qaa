@@ -16,4 +16,9 @@ h2 Задать вопрос
     = f.label :body
     = f.text_area :body, class: 'form-control'
 
-  = f.submit 'Задать вопрос', class: 'btn btn-default'
+  .form-group
+    = f.fields_for :attachments do |a|
+      /= render 'attachment_fields', f: a
+    = link_to_add_association 'добавить файл', f, :attachments
+
+  = f.submit 'Задать вопрос', class: 'btn btn-default btn-primary'
