@@ -3,7 +3,19 @@
   .questions
     - @questions.each do |question|
       .question id="question-id-#{question.id}"
+
+        span.voting
+          - if !user_signed_in? || current_user.id != question.user_id
+            | [ #{link_to '+', vote_like_path(question.id, votable_type: question.model_name), class: 'like', remote: true, method: :post}
+            span.rating= question.rating
+            | #{link_to '-', vote_dislike_path(question.id, votable_type: question.model_name), class: 'dislike', remote: true, method: :post} ]
+          - else
+            | [ 
+            span.rating= question.rating
+            | &nbsp;]
+
         = link_to question.title, question_path(question)
+
         div= question.body
         .controls
           - if user_signed_in? && current_user.id == question.user_id

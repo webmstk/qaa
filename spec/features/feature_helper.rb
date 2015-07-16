@@ -13,7 +13,10 @@ RSpec.configure do |config|
   # DatabaseCleaner
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    FileUtils.rm_r("#{Rails.root}/public/uploads/")
+    dir = "#{Rails.root}/public/uploads/"
+    if Dir.exist? dir
+      FileUtils.remove_dir(dir)
+    end
   end
 
   config.before(:each) do

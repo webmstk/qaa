@@ -14,7 +14,15 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require cocoon
-//= require turbolinks
+// require turbolinks
 //= require_tree .
 
 //= require bootstrap-sprockets
+
+  
+
+function show_popup(message)
+{
+  $('#info_message .modal-body').html(message);
+  $('#info_message').modal();
+}

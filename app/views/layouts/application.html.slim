@@ -44,3 +44,12 @@ html
         .list-group
           = link_to 'Вопросы', questions_path, class: 'list-group-item'
           = link_to 'Задать вопрос', new_question_path, class: 'list-group-item'
+
+
+  div id="info_message" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
+    div class="modal-dialog modal-sm"
+      .modal-content
+        .modal-header
+          button aria-hidden="true" data-dismiss="modal" class="close" type="button" ×
+          h4 id="mySmallModalLabel" class="modal-title" Q&A
+        .modal-body 
