@@ -1,4 +1,15 @@
 .answer id="answer-#{answer.id}" class=(answer.best ? 'best_answer' : '')
+
+  span.voting
+    - if !user_signed_in? || current_user.id != answer.user_id
+      | [ #{link_to '+', vote_like_path(answer.id, votable_type: answer.model_name), class: 'like', remote: true, method: :post}
+      span.rating= answer.rating
+      | #{link_to '-', vote_dislike_path(answer.id, votable_type: answer.model_name), class: 'dislike', remote: true, method: :post} ]
+    - else
+      | [ 
+      span.rating= answer.rating
+      | &nbsp;]
+
   .message = answer.body
   - if answer.attachments.any?
     ul.answer-files

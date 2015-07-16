@@ -3,11 +3,14 @@ Rails.application.routes.draw do
   devise_for :users
   resources :questions do
     resources :answers, only: [:destroy, :update, :create], shallow: true do
-      get 'best'
+      get :best
     end
   end
 
-  resources :attachments, only: [:destroy]
+  resources :attachments, only: :destroy
+  resources :votes, only: [] do
+    post :like, :dislike
+  end
 
   root 'questions#index'
 
