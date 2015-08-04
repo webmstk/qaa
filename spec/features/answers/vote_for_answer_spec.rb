@@ -18,7 +18,7 @@ feature 'Vote for answer', %q{
       visit question_path(question)
     end
 
-    scenario 'authenticated user likes answer', js: true do
+    scenario 'likes answer', js: true do
       within "#answer-#{answer1.id}" do
         click_on '+'
 
@@ -27,7 +27,7 @@ feature 'Vote for answer', %q{
       end
     end
 
-    scenario 'authenticated user cannot like answer twice', js: true do
+    scenario 'cannot like answer twice', js: true do
       within "#answer-#{answer1.id}" do
         click_on '+'
         click_on '+'
@@ -36,7 +36,7 @@ feature 'Vote for answer', %q{
       end
     end
 
-    scenario 'authenticated user can revote', js: true do
+    scenario 'can revote', js: true do
       within "#answer-#{answer1.id}" do
         click_on '+'
         click_on '-'
@@ -50,7 +50,7 @@ feature 'Vote for answer', %q{
     end
 
 
-    scenario 'user cannot vote for own answer', js: true do
+    scenario 'cannot vote for own answer', js: true do
       within "#answer-#{answer2.id}" do
         expect(page).not_to have_content('+')
       end
@@ -58,7 +58,7 @@ feature 'Vote for answer', %q{
   end
 
   describe 'unauthenticated user' do
-    scenario 'unauthenticated user cannot vote for answer', js: true do
+    scenario 'cannot vote for answer', js: true do
       visit question_path(question)
 
       within "#answer-#{answer1.id}" do

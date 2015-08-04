@@ -18,7 +18,7 @@ RSpec.describe VotesController, type: :controller do
         it 'should set vote value to +1' do
           post :like, vote_id: question.id, votable_type: 'Question', format: :json
 
-          expect(Vote.last.status).to eq 1
+          expect(Vote.last.value).to eq 1
         end
 
         it 'should set question rating to +1' do
@@ -28,12 +28,14 @@ RSpec.describe VotesController, type: :controller do
           expect(question.rating).to eq 1
         end
 
-        it 'should render json with success status and question id' do
+        it "should render json with success status, question's id and question's rating" do
           post :like, vote_id: question.id, votable_type: 'Question', format: :json
 
+          question.reload
           response_json = JSON.parse(response.body)
           expect(response_json['status']).to eq 'success'
           expect(response_json['id']).to eq question.id.to_s
+          expect(response_json['rating']).to eq question.rating
         end
       end
 
@@ -81,12 +83,13 @@ RSpec.describe VotesController, type: :controller do
           expect(question.rating).to eq 0
         end
 
-        it 'should render json with vote_canceled status and question id' do
+        it "should render json with success status, question's id and question's rating" do
           post :like, vote_id: question.id, votable_type: 'Question', format: :json
 
           response_json = JSON.parse(response.body)
           expect(response_json['status']).to eq 'vote_canceled'
           expect(response_json['id']).to eq question.id.to_s
+          expect(response_json['rating']).to eq question.rating
         end
       end
 
@@ -136,7 +139,7 @@ RSpec.describe VotesController, type: :controller do
         it 'should set vote value to -1' do
           post :dislike, vote_id: question.id, votable_type: 'Question', format: :json
 
-          expect(Vote.last.status).to eq -1
+          expect(Vote.last.value).to eq -1
         end
 
         it 'should set question rating to -1' do
@@ -146,12 +149,14 @@ RSpec.describe VotesController, type: :controller do
           expect(question.rating).to eq -1
         end
 
-        it 'should render json with success status and question id' do
+        it "should render json with success status, question's id and question's rating" do
           post :dislike, vote_id: question.id, votable_type: 'Question', format: :json
 
+          question.reload
           response_json = JSON.parse(response.body)
           expect(response_json['status']).to eq 'success'
           expect(response_json['id']).to eq question.id.to_s
+          expect(response_json['rating']).to eq question.rating
         end
       end
 
@@ -199,12 +204,13 @@ RSpec.describe VotesController, type: :controller do
           expect(question.rating).to eq 0
         end
 
-        it 'should render json with vote_canceled status and question id' do
+        it "should render json with success status, question's id and question's rating" do
           post :dislike, vote_id: question.id, votable_type: 'Question', format: :json
 
           response_json = JSON.parse(response.body)
           expect(response_json['status']).to eq 'vote_canceled'
           expect(response_json['id']).to eq question.id.to_s
+          expect(response_json['rating']).to eq question.rating
         end
       end
 

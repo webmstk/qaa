@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20150731114743) do
 
   create_table "votes", force: :cascade do |t|
     t.string   "user_id"
-    t.integer  "status"
+    t.integer  "value"
     t.integer  "votable_id"
     t.string   "votable_type"
     t.datetime "created_at",   null: false

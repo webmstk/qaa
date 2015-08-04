@@ -19,9 +19,9 @@ ready = ->
 
   $('.answer .like').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText);
+
     if(response.id)
-      rating = parseInt($('#answer-' + response.id + ' .rating').text())
-      $('#answer-' + response.id + ' .rating').text( ++rating )
+      $('#answer-' + response.id + ' .rating').text( response.rating )
 
       if(response.status == 'success')
         $('#answer-' + response.id + ' .like').addClass('voted')
@@ -32,11 +32,12 @@ ready = ->
     if(xhr == 'Unauthorized ')
       show_popup('Только зарегистрированные пользователи могут голосовать')
 
+
   $('.answer .dislike').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText);
+
     if(response.id)
-      rating = parseInt($('#answer-' + response.id + ' .rating').text())
-      $('#answer-' + response.id + ' .rating').text( --rating )
+      $('#answer-' + response.id + ' .rating').text( response.rating )
 
       if(response.status == 'success')
         $('#answer-' + response.id + ' .dislike').addClass('voted')

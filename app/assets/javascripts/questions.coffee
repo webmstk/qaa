@@ -22,21 +22,21 @@ ready = ->
     response = $.parseJSON(xhr.responseText);
 
     if(response.id)
-      rating = parseInt($('#question-id-' + response.id + ' .rating').text())
-      $('#question-id-' + response.id + ' .rating').text( ++rating )
+      $('#question-id-' + response.id + ' .rating').text( response.rating )
 
       if(response.status == 'success')
         $('#question-id-' + response.id + ' .like').addClass('voted')
       else if(response.status == 'vote_canceled')
         $('#question-id-' + response.id + ' .dislike').removeClass('voted')
 
-
   $('.question .like').bind 'ajax:error', (e, data, status, xhr) ->
     if(xhr == 'Unauthorized ')
       show_popup('Только зарегистрированные пользователи могут голосовать')
 
+
   $('.question .dislike').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText);
+    
     if(response.id)
       rating = parseInt($('#question-id-' + response.id + ' .rating').text())
       $('#question-id-' + response.id + ' .rating').text( --rating )
@@ -50,8 +50,7 @@ ready = ->
     if(xhr == 'Unauthorized ')
       show_popup('Только зарегистрированные пользователи могут голосовать')
 
-  $('#bla').click ->
-    $('.modal').modal()
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)

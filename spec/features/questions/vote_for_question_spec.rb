@@ -18,7 +18,7 @@ feature 'Vote for question', %q{
         visit questions_path
       end
 
-      scenario 'authenticated user likes question', js: true do
+      scenario 'likes question', js: true do
         within "#question-id-#{question1.id}" do
           click_on '+'
 
@@ -27,7 +27,7 @@ feature 'Vote for question', %q{
         end
       end
 
-      scenario 'authenticated user cannot like question twice', js: true do
+      scenario 'cannot like question twice', js: true do
         within "#question-id-#{question1.id}" do
           click_on '+'
           click_on '+'
@@ -36,7 +36,7 @@ feature 'Vote for question', %q{
         end
       end
 
-      scenario 'authenticated user can revote', js: true do
+      scenario 'can revote', js: true do
         within "#question-id-#{question1.id}" do
           click_on '+'
           click_on '-'
@@ -50,7 +50,7 @@ feature 'Vote for question', %q{
       end
 
 
-      scenario 'user cannot vote for own question', js: true do
+      scenario 'cannot vote for own question', js: true do
         within "#question-id-#{question2.id}" do
           expect(page).not_to have_content('+')
         end
@@ -58,7 +58,7 @@ feature 'Vote for question', %q{
     end
 
     describe 'unauthenticated user' do
-      scenario 'unauthenticated user cannot vote for question', js: true do
+      scenario 'cannot vote for question', js: true do
         visit questions_path
 
         within "#question-id-#{question1.id}" do
@@ -78,7 +78,7 @@ feature 'Vote for question', %q{
         visit question_path(question1)
       end
 
-      scenario 'authenticated user likes question', js: true do
+      scenario 'likes question', js: true do
         within "#question-id-#{question1.id}" do
           click_on '+'
 
@@ -87,7 +87,7 @@ feature 'Vote for question', %q{
         end
       end
 
-      scenario 'authenticated user cannot like question twice', js: true do
+      scenario 'cannot like question twice', js: true do
         within "#question-id-#{question1.id}" do
           click_on '+'
           click_on '+'
@@ -96,7 +96,7 @@ feature 'Vote for question', %q{
         end
       end
 
-      scenario 'authenticated user can revote', js: true do
+      scenario 'can revote', js: true do
         within "#question-id-#{question1.id}" do
           click_on '+'
           click_on '-'
@@ -109,7 +109,7 @@ feature 'Vote for question', %q{
         end
       end
 
-      scenario 'user cannot vote for own question', js: true do
+      scenario 'cannot vote for own question', js: true do
         visit question_path(question2)
 
         within "#question-id-#{question2.id}" do
@@ -119,7 +119,7 @@ feature 'Vote for question', %q{
     end
 
     describe 'unauthenticated user' do
-      scenario 'unauthenticated user cannot vote for question', js: true do
+      scenario 'cannot vote for question', js: true do
         visit questions_path(question1)
 
         within "#question-id-#{question1.id}" do
