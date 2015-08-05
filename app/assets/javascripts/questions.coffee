@@ -38,8 +38,7 @@ ready = ->
     response = $.parseJSON(xhr.responseText);
     
     if(response.id)
-      rating = parseInt($('#question-id-' + response.id + ' .rating').text())
-      $('#question-id-' + response.id + ' .rating').text( --rating )
+      $('#question-id-' + response.id + ' .rating').text( response.rating )
 
       if(response.status == 'success')
         $('#question-id-' + response.id + ' .dislike').addClass('voted')
