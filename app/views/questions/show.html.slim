@@ -3,8 +3,10 @@
 - else
   - show_question_class = 'hidden'
 
-.question id="question-id-#{@question.id}" class="#{show_question_class}"
+div id="question-id-#{@question.id}" data={question_id: "#{@question.id}"} class="#{show_question_class} question question-detail"
   = render 'question'
+  = render 'comments/comment', commentable: @question
+hr
 
 = form_for @question, html: { class: "edit-question #{form_edit_class}" }, remote: true do |f|
   .form-group
@@ -37,3 +39,6 @@ h3 Ответы
     = link_to_add_association 'добавить файл', f, :attachments
   .form-group
     = f.submit 'Ответить', class: 'btn btn-default'
+
+= subscribe_to "/question/#{@question.id}/answers"
+= subscribe_to "/question/#{@question.id}/comments"

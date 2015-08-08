@@ -14,12 +14,12 @@ RSpec.describe Vote, type: :model do
     end
   end
 
-  describe '#rating_up' do
+  describe '#rating_down' do
     let(:user) { create(:user) }
     let!(:question) { create(:question) }
     let!(:vote) { create(:positive_vote, votable: question, user: user) }
 
-    it "should increment question's rating" do
+    it "should decrement question's rating" do
       expect { vote.destroy }.to change { question.rating }.by(-1)
     end
   end

@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        comment:
+          attributes:
+            body:
+              blank: Комментарий не может быть пустым
+            user_id:
+              blank: Ну и чей это комментарий?
+  helpers:
+    label:
+      comment:
+        body: Комментарий

@@ -19,8 +19,13 @@ RSpec.describe QuestionsController, type: :controller do
 
 
   describe 'GET #show' do
+    let(:user) { create :user }
     let(:answer1) { create(:answer, question: question) }
     let(:answer2) { create(:answer, question: question) }
+    let(:comment1) { create(:comment, commentable: question, user: user) }
+    let(:comment2) { create(:comment, commentable: question, user: user) }
+    let!(:comment3) { create(:comment, commentable: answer1, user: user) }
+    let!(:comment4) { create(:comment, commentable: answer1, user: user) }
     before { get :show, id: question }
 
     it 'assigns the requested question to @question' do
@@ -33,6 +38,14 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new Answer to @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns all comments of the requested question to @comments' do
+      expect(assigns(:comments)).to match_array([comment1, comment2])
+    end
+
+    it 'assigns a new Comment to @comment' do
+      expect(assigns(:comment)).to be_a_new(Comment)
     end
 
     it 'builds new attachment for answer' do

@@ -6,6 +6,9 @@ gem 'bootstrap-sass', '~> 3.3.4'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
+gem 'private_pub'
+gem 'thin'
+gem 'handlebars_assets'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -41,6 +44,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry-byebug'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
@@ -59,6 +63,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'capybara-webkit'
   gem 'database_cleaner'
-  gem 'poltergeist'
+  gem 'poltergeist', '1.6'
 end
 

@@ -3,23 +3,18 @@
   .questions
     - @questions.each do |question|
       .question id="question-id-#{question.id}"
+        .attributes
+          = render 'share/votes/rating', votable: question
 
-        span.voting
-          - if !user_signed_in? || current_user.id != question.user_id
-            | [ #{link_to '+', vote_like_path(question.id, votable_type: question.model_name), class: 'like', remote: true, method: :post}
-            span.rating= question.rating
-            | #{link_to '-', vote_dislike_path(question.id, votable_type: question.model_name), class: 'dislike', remote: true, method: :post} ]
-          - else
-            | [ 
-            span.rating= question.rating
-            | &nbsp;]
+        .content
+          = link_to question.title, question_path(question)
 
-        = link_to question.title, question_path(question)
+          div= question.body
+          .controls
+            - if user_signed_in? && current_user.id == question.user_id
+              = link_to 'редактировать', question_path(question, edit: 'Y')
+              = link_to 'удалить', question_path(question), method: :delete,
+                                          id: "del_question_#{question.id}"
+      hr
 
-        div= question.body
-        .controls
-          - if user_signed_in? && current_user.id == question.user_id
-            = link_to 'редактировать', question_path(question, edit: 'Y')
-            = link_to 'удалить', question_path(question), method: :delete,
-                                        id: "del_question_#{question.id}"
-        hr
+= subscribe_to '/questions/index'

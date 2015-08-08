@@ -1,0 +1,11 @@
+.voting
+  = link_to '', vote_like_path(votable.id, votable_type: votable.model_name),
+                                           class: 'like glyphicon glyphicon-triangle-top',
+                                           remote: true,
+                                           method: :post
+  .rating = votable.rating
+
+  = link_to '', vote_dislike_path(votable.id, votable_type: votable.model_name),
+                                              class: 'dislike glyphicon glyphicon-triangle-bottom',
+                                              remote: true,
+                                              method: :post

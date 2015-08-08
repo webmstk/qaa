@@ -27,10 +27,11 @@ ready = ->
         $('#answer-' + response.id + ' .like').addClass('voted')
       else if(response.status == 'vote_canceled')
         $('#answer-' + response.id + ' .dislike').removeClass('voted')      
+      else if(response.status == 'forbidden')
+        show_popup('Вы не можете голосовать за свой ответ')
 
-  $('.answer .like').bind 'ajax:error', (e, data, status, xhr) ->
-    if(xhr == 'Unauthorized ')
-      show_popup('Только зарегистрированные пользователи могут голосовать')
+  $('.answer .like').bind 'ajax:error', (xhr, status, error) ->
+    show_popup(status.responseText)
 
 
   $('.answer .dislike').bind 'ajax:success', (e, data, status, xhr) ->
@@ -43,11 +44,15 @@ ready = ->
         $('#answer-' + response.id + ' .dislike').addClass('voted')
       else if(response.status == 'vote_canceled')
         $('#answer-' + response.id + ' .like').removeClass('voted')
+      else if(response.status == 'forbidden')
+        show_popup('Вы не можете голосовать за свой ответ')
 
-  $('.answer .dislike').bind 'ajax:error', (e, data, status, xhr) ->
-    if(xhr == 'Unauthorized ')
-      show_popup('Только зарегистрированные пользователи могут голосовать')
+  $('.answer .dislike').bind 'ajax:error', (xhr, status, error) ->
+    show_popup(status.responseText)
 
+
+  $('#new_answer').bind 'ajax:error', (xhr, status, error) ->
+    show_popup('Только зарегистрированные пользователи могут отвечать. <a href="/users/sign_in">Авторизоваться</a>')
 
 
 $(document).ready(ready)

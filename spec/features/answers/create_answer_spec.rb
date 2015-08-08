@@ -20,10 +20,14 @@ feature 'create answer to question', %q{
     end
 
     expect(current_path).to eq question_path(question)
+
     within '.answers' do
       expect(page).to have_content answer.body
       expect(page).not_to have_content('На этот вопрос пока нет ответов')
     end
+
+    answer_body = find_field('answer_body').value
+    expect(answer_body).to eq ''
   end
 
   scenario 'authenticated user creates invalid answer', js: true do
@@ -40,16 +44,14 @@ feature 'create answer to question', %q{
     expect(page).not_to have_content answer.body
   end
 
-  scenario 'non-authenticated user tries to create answer' do
+  scenario 'non-authenticated user tries to create answer', js: true do
     visit question_path(question)
     within '#new_answer' do
       fill_in 'Сообщение', with: answer.body
       click_on 'Ответить'
     end
 
-    expect(current_path).to eq new_user_session_path
-    expect(page).to have_content 'Вам необходимо войти в систему
-                                  или зарегистрироваться.'
+    expect(page).to have_content 'Только зарегистрированные пользователи могут отвечать'
 
     visit question_path(question)
     expect(page).not_to have_content answer.body

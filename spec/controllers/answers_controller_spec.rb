@@ -4,8 +4,9 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create :question }
 
   describe 'POST #create' do
+    sign_in_user
+    
     context 'with valid attributes' do
-      sign_in_user
       let(:answer) { question.answers.create(attributes_for(:answer)) }
 
       it 'save answer to the database' do
@@ -26,8 +27,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      sign_in_user
-
       it 'does not save answer to the database' do
         expect do
           post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js

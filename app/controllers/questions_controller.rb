@@ -7,8 +7,10 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answers = @question.answers.order(best: :desc, created_at: :asc)
     @answer = Answer.new
+    @answers = @question.answers.sorted
+    @comment = Comment.new
+    @comments = @question.comments.sorted
     @answer.attachments.build
   end
 
@@ -26,6 +28,7 @@ class QuestionsController < ApplicationController
     @question.user = current_user
     if @question.save
       flash[:notice] = 'Ваш вопрос успешно создан.'
+      PrivatePub.publish_to '/questions/index', question: @question.to_json
       redirect_to @question
     else
       render :new

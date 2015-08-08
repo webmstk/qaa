@@ -1,0 +1,14 @@
+.question id="question-id-{{id}}"
+  .attributes
+    .voting
+      a class="like glyphicon glyphicon-triangle-top" data-remote="true" rel="nofollow" data-method="post" href="/votes/{{id}}/like?votable_type=Question"
+      .rating
+        | {{rating}}
+      a class="dislike glyphicon glyphicon-triangle-bottom" data-remote="true" rel="nofollow" data-method="post" href="/votes/{{id}}/dislike?votable_type=Question"
+
+  .content
+    a href="/questions/{{id}}" {{title}}
+
+    div
+      | {{body}}
+hr

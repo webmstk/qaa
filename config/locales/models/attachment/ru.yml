@@ -3,3 +3,10 @@ ru:
     label:
       attachment:
         file: Файл
+  activerecord:
+    errors:
+      models:
+        attachment:
+          attributes:
+            file:
+              blank: Выберите файл

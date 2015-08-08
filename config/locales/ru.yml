@@ -1,1 +1,5 @@
 ru:
+  activerecord:
+    errors:
+      messages:
+        record_invalid: Объект не валиден

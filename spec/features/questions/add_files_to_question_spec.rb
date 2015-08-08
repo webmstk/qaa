@@ -10,6 +10,7 @@ feature 'Add files to question', %q{
   given(:question) { build(:question, user: user) }
 
   background do
+    Capybara.current_driver = :webkit
     sign_in(user)
     visit new_question_path
   end
@@ -26,8 +27,9 @@ feature 'Add files to question', %q{
 
     click_button 'Задать вопрос'
 
-    expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
-    expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
+    expect(page).to have_link 'spec_helper.rb'#, href: '/uploads/attachment/file/1/spec_helper.rb'
+    expect(page).to have_link 'rails_helper.rb'#, href: '/uploads/attachment/file/2/rails_helper.rb'
   end
 
+  Capybara.use_default_driver
 end

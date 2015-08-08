@@ -14,7 +14,9 @@ $('.answer-errors').remove();
 <% else %>
 
   $('.no-answers').remove();
-  $('.answers').append('<%= j render @answer %>');
-  $('#answer_body').val('');
+  $('.new_answer textarea').val('');
 
+  <% publish_to "/question/#{@question.id}/answers" do %>
+    $('.answers').append('<%= j render @answer %>');
+  <% end %>
 <% end %>

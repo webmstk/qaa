@@ -21,3 +21,4 @@
 # Other
 .idea
 .DS_Store
+/.powenv

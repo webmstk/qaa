@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
+  concern :commentable do
+      resources :comments, shallow: true, only: [:create, :destroy]
+  end
+
   devise_for :users
-  resources :questions do
-    resources :answers, only: [:destroy, :update, :create], shallow: true do
+  resources :questions, concerns: :commentable do
+    resources :answers, only: [:destroy, :update, :create], shallow: true, concerns: :commentable do
       get :best
     end
   end

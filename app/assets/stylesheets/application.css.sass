@@ -30,66 +30,79 @@ body
   width: 1000px
 
 
+.voting
+  color: #999
+  font-size: 15px
+  margin-right: 20px
+  margin-top: -17px
+  .rating
+    line-height: 16px
+    text-align: center
+    margin-top: -2px
+  a
+    color: #999
+    text-decoration: none
+  .voted
+    color: green
+
 .questions
   .question
     margin: 20px 0
+    padding-top: 12px
+    overflow: hidden
+    > div
+      float: left
     .controls
       margin-top: 10px
       a
         font-size: 12px
         margin-right: 5px
-    .voting
-      margin-right: 10px
-      color: #999
-      font-size: 14px
-      a
-        color: #999
-        margin: 0 5px
-        text-decoration: none
-        font-size: 15px
-      .voted
-        color: green
-        font-weight: bold
 
-.question
+.wrap_comments
+  overflow: hidden
+  width: 100%
+  margin: 10px 0 0 0px
+  padding-left: 42px
+  clear: left
+  float: none
+  a
+    float: right
+.comments
+  margin-left: 15px
+  .comment
+    margin: 5px 0
+    color: #999
+.new_comment
+  display: none
+
+.question-detail
+  .wrap
+    overflow: hidden
+    > div
+      float: left
   .controls
     a
       margin-right: 5px
   .voting
-    margin-right: 10px
-    color: #999
-    font-size: 14px
-    a
-      color: #999
-      margin: 0 5px
-      text-decoration: none
-      font-size: 15px
-    .voted
-      color: green
-      font-weight: bold
+    font-size: 22px
+    margin-top: -1px
+    .rating
+      line-height: 25px
+      margin-top: -4px
 
 .answers
   .answer
-    padding: 10px
+    padding: 15px 10px 10px
     margin-bottom: 5px
+    overflow: hidden
+    > div
+      float: left
     .controls
       a
         font-size: 13px
         margin-right: 7px
       .choose-best-answer
         color: green
-    .voting
-      margin-right: 10px
-      color: #999
-      font-size: 14px
-      a
-        color: #999
-        margin: 0 5px
-        text-decoration: none
-        font-size: 15px
-      .voted
-        color: green
-        font-weight: bold
   .edit_answer
     display: none
     margin-bottom: 20px

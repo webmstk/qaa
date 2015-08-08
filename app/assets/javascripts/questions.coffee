@@ -18,36 +18,49 @@ ready = ->
     $('.edit-question').addClass('hidden')
     $('.question').removeClass('hidden')
 
-  $('.question .like').bind 'ajax:success', (e, data, status, xhr) ->
-    response = $.parseJSON(xhr.responseText);
 
-    if(response.id)
-      $('#question-id-' + response.id + ' .rating').text( response.rating )
+  bind_vote_for_question = ->
+    $('.question .like').bind 'ajax:success', (e, data, status, xhr) ->
+      response = $.parseJSON(xhr.responseText);
 
-      if(response.status == 'success')
-        $('#question-id-' + response.id + ' .like').addClass('voted')
-      else if(response.status == 'vote_canceled')
-        $('#question-id-' + response.id + ' .dislike').removeClass('voted')
+      if(response.id)
+        $('#question-id-' + response.id + ' .rating').text( response.rating )
 
-  $('.question .like').bind 'ajax:error', (e, data, status, xhr) ->
-    if(xhr == 'Unauthorized ')
-      show_popup('Только зарегистрированные пользователи могут голосовать')
+        if(response.status == 'success')
+          $('#question-id-' + response.id + ' .like').addClass('voted')
+        else if(response.status == 'vote_canceled')
+          $('#question-id-' + response.id + ' .dislike').removeClass('voted')
+        else if(response.status == 'forbidden')
+          show_popup('Вы не можете голосовать за свой ответ')
+
+    $('.question .like').bind 'ajax:error', (xhr, status, error) ->
+      show_popup(status.responseText)
+
+    $('.question .dislike').bind 'ajax:success', (e, data, status, xhr) ->
+      response = $.parseJSON(xhr.responseText);
+      
+      if(response.id)
+        $('#question-id-' + response.id + ' .rating').text( response.rating )
+
+        if(response.status == 'success')
+          $('#question-id-' + response.id + ' .dislike').addClass('voted')
+        else if(response.status == 'vote_canceled')
+          $('#question-id-' + response.id + ' .like').removeClass('voted')
+        else if(response.status == 'forbidden')
+          show_popup('Вы не можете голосовать за свой ответ')
+
+    $('.question .dislike').bind 'ajax:error', (xhr, status, error) ->
+      show_popup(status.responseText)
 
 
-  $('.question .dislike').bind 'ajax:success', (e, data, status, xhr) ->
-    response = $.parseJSON(xhr.responseText);
+  bind_vote_for_question()
+
+
+  PrivatePub.subscribe '/questions/index', (data, channel) ->
+    question = $.parseJSON(data['question'])
+    $('.questions').append(HandlebarsTemplates['question'](question))
+    bind_vote_for_question()
     
-    if(response.id)
-      $('#question-id-' + response.id + ' .rating').text( response.rating )
-
-      if(response.status == 'success')
-        $('#question-id-' + response.id + ' .dislike').addClass('voted')
-      else if(response.status == 'vote_canceled')
-        $('#question-id-' + response.id + ' .like').removeClass('voted')
-
-  $('.question .dislike').bind 'ajax:error', (e, data, status, xhr) ->
-    if(xhr == 'Unauthorized ')
-      show_popup('Только зарегистрированные пользователи могут голосовать')
 
 
 $(document).ready(ready)

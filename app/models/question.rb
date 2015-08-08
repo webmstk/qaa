@@ -1,6 +1,7 @@
 class Question < ActiveRecord::Base
   include Attachable
   include Votable
+  include Commentable
 
   belongs_to :user
 	has_many :answers, dependent: :destroy
@@ -12,4 +13,5 @@ class Question < ActiveRecord::Base
   def best_answer
     Answer.where({ question_id: self.id, best: true }).take
   end
+
 end
