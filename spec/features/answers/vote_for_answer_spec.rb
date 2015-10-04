@@ -20,7 +20,7 @@ feature 'Vote for answer', %q{
 
     scenario 'likes answer', js: true do
       within "#answer-#{answer1.id}" do
-        click_link '', href: "/votes/#{answer1.id}/like?votable_type=Answer"
+        click_link '', href: "/answers/#{answer1.id}/votes/like"
 
         expect(page).to have_content '1'
         expect(page).to have_css('.like.voted')
@@ -29,7 +29,7 @@ feature 'Vote for answer', %q{
 
     scenario 'cannot like answer twice', js: true do
       within "#answer-#{answer1.id}" do
-        like = page.find(:css, 'a[href="/votes/' + answer1.id.to_s + '/like?votable_type=Answer"]')
+        like = page.find(:css, 'a[href="/answers/' + answer1.id.to_s + '/votes/like"]')
         like.click
         like.click
 
@@ -39,8 +39,8 @@ feature 'Vote for answer', %q{
 
     scenario 'can revote', js: true do
       within "#answer-#{answer1.id}" do
-        like = page.find(:css, 'a[href="/votes/' + answer1.id.to_s + '/like?votable_type=Answer"]')
-        dislike = page.find(:css, 'a[href="/votes/' + answer1.id.to_s + '/dislike?votable_type=Answer"]')
+        like = page.find(:css, 'a[href="/answers/' + answer1.id.to_s + '/votes/like"]')
+        dislike = page.find(:css, 'a[href="/answers/' + answer1.id.to_s + '/votes/dislike"]')
         like.click
         sleep 1
         dislike.click
@@ -58,7 +58,7 @@ feature 'Vote for answer', %q{
 
     scenario 'cannot vote for own answer', js: true do
       within "#answer-#{answer2.id}" do
-        click_link '', href: "/votes/#{answer2.id}/like?votable_type=Answer"
+        click_link '', href: "/answers/#{answer2.id}/votes/like"
 
         expect(page).to have_content '0'
       end
@@ -72,7 +72,7 @@ feature 'Vote for answer', %q{
       visit question_path(question)
 
       within "#answer-#{answer1.id}" do
-        click_link '', href: "/votes/#{answer1.id}/like?votable_type=Answer"
+        click_link '', href: "/answers/#{answer1.id}/votes/like"
       end
 
       expect(page).to have_content('Вам необходимо войти в систему или зарегистрироваться.')

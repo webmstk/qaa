@@ -26,10 +26,10 @@
                                        data: { answer_id: answer.id }
         - if current_user.id == @question.user_id
           = link_to (answer.best ? 'не лучший ответ' : 'лучший ответ'),
-                                  answer_best_path(question_id: @question, answer_id: answer),
-                                  class: 'choose-best-answer',
-                                  data: { answer_id: answer.id },
-                                  remote: true
+                                   answer_best_path(question_id: @question, answer_id: answer),
+                                   class: 'choose-best-answer',
+                                   data: { answer_id: answer.id },
+                                   remote: true
 
   = render 'comments/comment', commentable: answer
 

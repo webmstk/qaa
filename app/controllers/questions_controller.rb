@@ -1,44 +1,34 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :destroy, :update]
+  before_action :build_answer, only: :show
+  before_action :build_comment, only: :show
+  respond_to :html, :js
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = Answer.new
-    @answers = @question.answers.sorted
-    @comment = Comment.new
-    @comments = @question.comments.sorted
-    @answer.attachments.build
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def update
     @question.update(question_params)
+    respond_with @question
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
-    if @question.save
-      flash[:notice] = 'Ваш вопрос успешно создан.'
-      PrivatePub.publish_to '/questions/index', question: @question.to_json
-      redirect_to @question
-    else
-      render :new
-    end
+    respond_with(@question = Question.create(question_params.merge({user_id: current_user.id})))
   end
 
   def destroy
     if @question.user_id == current_user.id
-      @question.destroy
-      redirect_to questions_path, notice: 'Вопрос успешно удалён'
+      respond_with(@question.destroy)
     else
       redirect_to @question, notice: 'Вы не можете удалить чужой вопрос'
     end
@@ -52,5 +42,13 @@ class QuestionsController < ApplicationController
 
     def question_params
       params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
+    end
+
+    def build_answer
+      @answer = Answer.new
+    end
+
+    def build_comment
+      @comment = Comment.new
     end
 end

@@ -1,6 +1,7 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
   before_action :load_votable
+  respond_to :json
 
   def like
     status = @votable.rating_up(current_user)
@@ -8,8 +9,9 @@ class VotesController < ApplicationController
     @votable.reload
 
     respond_to do |format|
-      format.json { render json: { status: status, id: params[:vote_id], rating: @votable.rating } }
+      format.json { render json: { status: status, id: @votable.id, rating: @votable.rating } }
     end
+    # respond_with(@votable.reload)
   end
 
   def dislike
@@ -18,14 +20,19 @@ class VotesController < ApplicationController
     @votable.reload
 
     respond_to do |format|
-      format.json { render json: { status: status, id: params[:vote_id], rating: @votable.rating } }
+      format.json { render json: { status: status, id: @votable.id, rating: @votable.rating } }
     end
   end
 
   private
 
     def load_votable
-      @votable = params[:votable_type].classify.constantize.find(params[:vote_id])
+      params.each do |name, value|
+        if name =~ /(.+)_id$/
+          @votable = $1.classify.constantize.find(value)
+        end
+      end
+      nil
     end
 
 end

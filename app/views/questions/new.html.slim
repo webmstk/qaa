@@ -17,7 +17,7 @@ h2 Задать вопрос
     = f.text_area :body, class: 'form-control'
 
   .form-group
-    = f.fields_for :attachments do |a|
+    = f.fields_for :attachments, @question.attachments.build do |a|
       /= render 'attachment_fields', f: a
     = link_to_add_association 'добавить файл', f, :attachments
 

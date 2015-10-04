@@ -20,7 +20,7 @@ feature 'Vote for question', %q{
 
       scenario 'likes question', js: true do
         within "#question-id-#{question1.id}" do
-          click_link '', href: "/votes/#{question1.id}/like?votable_type=Question"
+          click_link '', href: "/questions/#{question1.id}/votes/like"
 
           expect(page).to have_content '1'
           expect(page).to have_css('.like.voted')
@@ -29,7 +29,7 @@ feature 'Vote for question', %q{
 
       scenario 'cannot like question twice', js: true do
         within "#question-id-#{question1.id}" do
-          like = page.find(:css, 'a[href="/votes/' + question1.id.to_s + '/like?votable_type=Question"]')
+          like = page.find(:css, 'a[href="/questions/' + question1.id.to_s + '/votes/like"]')
           like.click
           like.click
 
@@ -39,8 +39,8 @@ feature 'Vote for question', %q{
 
       scenario 'can revote', js: true do
         within "#question-id-#{question1.id}" do
-          like = page.find(:css, 'a[href="/votes/' + question1.id.to_s + '/like?votable_type=Question"]')
-          dislike = page.find(:css, 'a[href="/votes/' + question1.id.to_s + '/dislike?votable_type=Question"]')
+          like = page.find(:css, 'a[href="/questions/' + question1.id.to_s + '/votes/like"]')
+          dislike = page.find(:css, 'a[href="/questions/' + question1.id.to_s + '/votes/dislike"]')
           like.click
           sleep 1
           dislike.click
@@ -58,7 +58,7 @@ feature 'Vote for question', %q{
 
       scenario 'cannot vote for own question', js: true do
         within "#question-id-#{question2.id}" do
-          click_link '', href: "/votes/#{question2.id}/like?votable_type=Question"
+          click_link '', href: "/questions/#{question2.id}/votes/like"
 
           expect(page).to have_content '0'
         end
@@ -72,7 +72,7 @@ feature 'Vote for question', %q{
         visit questions_path
 
         within "#question-id-#{question1.id}" do
-          click_link '', href: "/votes/#{question1.id}/like?votable_type=Question"
+          click_link '', href: "/questions/#{question1.id}/votes/like"
         end
 
         expect(page).to have_content('Вам необходимо войти в систему или зарегистрироваться.')
@@ -90,7 +90,7 @@ feature 'Vote for question', %q{
 
       scenario 'likes question', js: true do
         within "#question-id-#{question1.id}" do
-          click_link '', href: "/votes/#{question1.id}/like?votable_type=Question"
+          click_link '', href: "/questions/#{question1.id}/votes/like"
 
           expect(page).to have_content '1'
           expect(page).to have_css('.like.voted')
@@ -99,7 +99,7 @@ feature 'Vote for question', %q{
 
       scenario 'cannot like question twice', js: true do
         within "#question-id-#{question1.id}" do
-          like = page.find(:css, 'a[href="/votes/' + question1.id.to_s + '/like?votable_type=Question"]')
+          like = page.find(:css, 'a[href="/questions/' + question1.id.to_s + '/votes/like"]')
           like.click
           like.click
 
@@ -109,8 +109,8 @@ feature 'Vote for question', %q{
 
       scenario 'can revote', js: true do
         within "#question-id-#{question1.id}" do
-          like = page.find(:css, 'a[href="/votes/' + question1.id.to_s + '/like?votable_type=Question"]')
-          dislike = page.find(:css, 'a[href="/votes/' + question1.id.to_s + '/dislike?votable_type=Question"]')
+          like = page.find(:css, 'a[href="/questions/' + question1.id.to_s + '/votes/like"]')
+          dislike = page.find(:css, 'a[href="/questions/' + question1.id.to_s + '/votes/dislike"]')
           like.click
           sleep 1
           dislike.click
@@ -129,7 +129,7 @@ feature 'Vote for question', %q{
         visit question_path(question2)
 
         within "#question-id-#{question2.id}" do
-          click_link '', href: "/votes/#{question2.id}/like?votable_type=Question"
+          click_link '', href: "/questions/#{question2.id}/votes/like"
 
           expect(page).to have_content '0'
         end
@@ -140,10 +140,10 @@ feature 'Vote for question', %q{
 
     describe 'unauthenticated user' do
       scenario 'cannot vote for question', js: true do
-        visit questions_path(question1)
+        visit question_path(question1)
 
         within "#question-id-#{question1.id}" do
-          click_link '', href: "/votes/#{question1.id}/like?votable_type=Question"
+          click_link '', href: "/questions/#{question1.id}/votes/like"
         end
 
         expect(page).to have_content('Вам необходимо войти в систему или зарегистрироваться.')

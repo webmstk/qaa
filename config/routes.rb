@@ -4,17 +4,22 @@ Rails.application.routes.draw do
       resources :comments, shallow: true, only: [:create, :destroy]
   end
 
+  concern :votable do
+    resources :votes, only: [] do
+      post :like, on: :collection
+      post :dislike, on: :collection
+    end
+  end
+
   devise_for :users
-  resources :questions, concerns: :commentable do
-    resources :answers, only: [:destroy, :update, :create], shallow: true, concerns: :commentable do
+
+  resources :questions, concerns: [:commentable, :votable] do
+    resources :answers, only: [:destroy, :update, :create], shallow: true, concerns: [:commentable, :votable] do
       get :best
     end
   end
 
   resources :attachments, only: :destroy
-  resources :votes, only: [] do
-    post :like, :dislike
-  end
 
   root 'questions#index'
 

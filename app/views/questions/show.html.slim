@@ -24,10 +24,11 @@ hr
 
 h3 Ответы
 .answers
-  - if @answers.any?
-    = render 'answers/answers', answers: @answers
-  - else
-    .no-answers На этот вопрос пока нет ответов
+  = render 'answers/answers', answers: @question.answers
+  / - if @answers.any?
+    / = render 'answers/answers', answers: @answers
+  / - else
+    / .no-answers На этот вопрос пока нет ответов
 
 = form_for([@question, @answer], remote: true) do |f|
   .form-group

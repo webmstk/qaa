@@ -9,6 +9,7 @@ gem 'cocoon'
 gem 'private_pub'
 gem 'thin'
 gem 'handlebars_assets'
+# gem 'responders'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
