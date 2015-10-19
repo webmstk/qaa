@@ -9,6 +9,10 @@ gem 'cocoon'
 gem 'private_pub'
 gem 'thin'
 gem 'handlebars_assets'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
 # gem 'responders'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -42,6 +46,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'letter_opener', group: :development
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -65,5 +70,6 @@ group :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'poltergeist', '1.6'
+  gem 'capybara-email'
 end
 

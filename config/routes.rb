@@ -11,7 +11,13 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', sessions: 'users/sessions' }
+  
+  devise_scope :user do
+    get '/users/email' => 'users/sessions#email'
+    post '/users/email' => 'users/sessions#send_email'
+    get '/users/authorizate' => 'users/sessions#authorizate'
+  end
 
   resources :questions, concerns: [:commentable, :votable] do
     resources :answers, only: [:destroy, :update, :create], shallow: true, concerns: [:commentable, :votable] do

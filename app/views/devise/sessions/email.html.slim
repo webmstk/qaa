@@ -1,0 +1,12 @@
+h1 Требуется email
+p
+  | Мы отправим вам письмо со ссылкой для верификации аккаунта
+
+= form_tag '/users/email'
+  .form-group
+    = label_tag 'email', 'Email'
+    = text_field_tag 'email', nil, class: 'form-control'
+
+  = hidden_field_tag 'authorization', @authorization.id
+
+  = submit_tag 'Отправить', class: 'btn btn-default btn-primary'
