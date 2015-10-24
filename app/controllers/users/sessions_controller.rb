@@ -1,6 +1,8 @@
 class Users::SessionsController < Devise::SessionsController
   before_action :load_authorization
 
+  skip_authorization_check
+
   def email
     render :thank_you if @authorization.nil?
   end

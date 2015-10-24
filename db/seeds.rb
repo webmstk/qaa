@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-user1 = User.create(email: 'webmstk@mail.ru', password: '123456789', password_confirmation: '123456789')
+user1 = User.create(email: 'webmstk@mail.ru', password: '123456789', password_confirmation: '123456789', admin: true)
 user2 = User.create(email: 'etalord@yandex.ru', password: '123456789', password_confirmation: '123456789')
 
 question1 = Question.create(title: 'Есть ли жизнь на марсе?', body: 'Никак не могу разглядеть в свой телескоп', user: user1)

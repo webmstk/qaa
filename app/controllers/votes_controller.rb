@@ -1,7 +1,10 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
   before_action :load_votable
+
   respond_to :json
+
+  authorize_resource
 
   def like
     status = @votable.rating_up(current_user)

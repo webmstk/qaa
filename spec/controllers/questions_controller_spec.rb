@@ -26,7 +26,7 @@ RSpec.describe QuestionsController, type: :controller do
     let(:comment2) { create(:comment, commentable: question, user: user) }
     let!(:comment3) { create(:comment, commentable: answer1, user: user) }
     let!(:comment4) { create(:comment, commentable: answer1, user: user) }
-    
+
     before { get :show, id: question }
 
     it 'assigns the requested question to @question' do
@@ -116,6 +116,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     sign_in_user
+    before { question.update(user: @user) }
 
     context 'valid attributes' do
       it 'assigns the requested question to @question' do
@@ -181,7 +182,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirects to show view' do
         delete :destroy, id: another_user_question
-        expect(response).to redirect_to question_path(another_user_question)
+        expect(response).to redirect_to root_path
       end
     end
   end

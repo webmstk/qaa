@@ -3,7 +3,10 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: [:update, :destroy]
   before_action :load_best_answer, only: :best
   before_action :load_question, only: :update
+
   respond_to :html, :js
+
+  authorize_resource
 
   def create
     @question = Question.find(params[:question_id])

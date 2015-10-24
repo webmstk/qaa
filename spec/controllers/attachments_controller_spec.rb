@@ -18,7 +18,7 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'renders :destroy view' do
         delete :destroy, id: question_attachment, format: :js
 
-        expect(response).to render_template(:destroy)
+        expect(response).to redirect_to root_path
       end
     end
 
@@ -45,7 +45,7 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'renders :destroy view' do
         delete :destroy, id: answer_attachment, format: :js
 
-        expect(response).to render_template(:destroy)
+        expect(response).to redirect_to root_path
       end
     end
 

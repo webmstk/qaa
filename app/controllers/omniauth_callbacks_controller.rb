@@ -1,6 +1,8 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :load_user
 
+  skip_authorization_check
+  
   def facebook
     redirect_user('Facebook')
   end

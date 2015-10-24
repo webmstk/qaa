@@ -5,7 +5,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     sign_in_user
-    
+
     context 'with valid attributes' do
       let(:answer) { question.answers.create(attributes_for(:answer)) }
 
@@ -66,23 +66,23 @@ RSpec.describe AnswersController, type: :controller do
       end
       before { another_user_answer }
 
-      it 'does not remove question from the database' do
+      it 'does not remove answer from the database' do
         expect do
-          delete :destroy, question_id: question, id: another_user_answer, format: :js
+          delete :destroy, answer_id: answer, id: another_user_answer, format: :js
         end.not_to change(Answer, :count)
       end
 
       it 'renders :destroy view' do
-        delete :destroy, question_id: question, id: another_user_answer, format: :js
-        expect(response).to render_template :destroy
+        delete :destroy, answer_id: answer, id: another_user_answer, format: :js
+        expect(response).to redirect_to root_path
       end
     end
   end
 
 
   describe 'PATCH #update' do
-    let(:answer) { create(:answer, question: question) }
     sign_in_user
+    let(:answer) { create(:answer, question: question, user: @user) }
 
     it 'assigns the requested answer to @answer' do
       patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js

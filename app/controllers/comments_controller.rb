@@ -2,7 +2,11 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   #before_action :load_commentable
 
+  # authorize_resource
+
   def create
+    authorize! :create, Comment
+    
     commentable = load_commentable
     question_id = get_question_id(commentable)
     @comment = commentable.comments.build(comment_params)
@@ -22,6 +26,7 @@ class CommentsController < ApplicationController
 
   def destroy
     comment = Comment.find(params[:id])
+    authorize! :destroy, comment
 
     respond_to do |format|
       if comment.user_id == current_user.id

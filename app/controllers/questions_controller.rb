@@ -3,7 +3,10 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :destroy, :update]
   before_action :build_answer, only: :show
   before_action :build_comment, only: :show
+
   respond_to :html, :js
+
+  authorize_resource
 
   def index
     respond_with(@questions = Question.all)
