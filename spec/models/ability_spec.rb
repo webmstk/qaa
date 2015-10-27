@@ -64,5 +64,8 @@ describe Ability do
 
     it { should be_able_to :dislike, vote }
     it { should_not be_able_to :dislike, vote_other }
+
+    it { should be_able_to :me, User }
+    it { should be_able_to :index, User }
   end
 end

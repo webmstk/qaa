@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  use_doorkeeper
   concern :commentable do
       resources :comments, shallow: true, only: [:create, :destroy]
   end
@@ -12,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', sessions: 'users/sessions' }
-  
+
   devise_scope :user do
     get '/users/email' => 'users/sessions#email'
     post '/users/email' => 'users/sessions#send_email'
@@ -26,6 +27,15 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+        get :index, on: :collection
+      end
+    end
+  end
 
   root 'questions#index'
 

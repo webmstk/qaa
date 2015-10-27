@@ -44,6 +44,8 @@ class Ability
       user != vote.votable.user
     end
 
+    can :me, User, id: user.id
+    can :index, User, id: user.id
   end
 end
 

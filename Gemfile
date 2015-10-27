@@ -14,6 +14,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper'
 # gem 'responders'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -73,5 +74,5 @@ group :test do
   gem 'database_cleaner'
   gem 'poltergeist', '1.6'
   gem 'capybara-email'
+  gem 'json_spec'
 end
-
