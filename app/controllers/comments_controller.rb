@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
 
   def create
     authorize! :create, Comment
-    
+
     commentable = load_commentable
     question_id = get_question_id(commentable)
     @comment = commentable.comments.build(comment_params)
@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
         PrivatePub.publish_to "/question/#{question_id}/comments", comment: @comment.to_json
         format.json { render json: {} }
       else
-        format.json { render json: @comment.errors.full_messages, status: 418 }
+        format.json { render json: @comment.errors.full_messages, root: false, status: 418 }
       end
     end
   end

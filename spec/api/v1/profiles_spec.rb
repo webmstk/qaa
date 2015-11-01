@@ -53,8 +53,8 @@ describe 'Profile API' do
 
     context 'authorized' do
       let(:me) { create :user }
-      let!(:user1) { create :user }
-      let!(:user2) { create :user }
+      let!(:users) { create_list :user, 2 }
+      let(:user) { users.first }
       let(:access_token) { create :access_token, resource_owner_id: me.id }
 
       before { get '/api/v1/profiles/', format: :json, access_token: access_token.token }
@@ -64,13 +64,12 @@ describe 'Profile API' do
       end
 
       it 'returns list of users' do
-        expect(response.body).to eq [user1, user2].to_json
+        expect(response.body).to have_json_size(2).at_path('profiles/')
       end
 
-      # Не уверен, что это самое красивое решение
       %w(id email created_at updated_at admin).each do |attr|
         it "contains #{attr}" do
-          expect(JSON.parse(response.body).first.to_json).to be_json_eql(user1.send(attr.to_sym).to_json).at_path(attr)
+          expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path("profiles/0/#{attr}")
         end
       end
     end

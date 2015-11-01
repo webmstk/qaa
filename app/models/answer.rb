@@ -2,7 +2,7 @@ class Answer < ActiveRecord::Base
   include Attachable
   include Votable
   include Commentable
-  
+
   belongs_to :user
   belongs_to :question
   validates :body, :question_id, :user_id, presence: true
@@ -23,4 +23,3 @@ class Answer < ActiveRecord::Base
     end
   end
 end
-
