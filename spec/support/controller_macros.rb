@@ -7,3 +7,7 @@ module ControllerMacros
     end
   end
 end
+
+def do_request(request_method, path, options = {})
+  send(request_method, path, { format: :json }.merge(options))
+end

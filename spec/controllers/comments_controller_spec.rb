@@ -15,17 +15,30 @@ RSpec.describe CommentsController, type: :controller do
         end.to change(answer.comments, :count).by(1)
       end
 
-      
+
       # этот тест получается не нужен??? не знаю, как протестировать что контроллер передал управление private_pub
 
       # it 'should render json comment' do
       #   post :create, answer_id: answer, comment: attributes_for(:comment), format: :json
-        
+
       #   comment_json = JSON.parse(response.body)
       #   comment_db = JSON.parse(Comment.last.to_json)
-        
+
       #   expect(comment_json).to eq comment_db
       # end
+
+      it 'invokes publish to PrivatePub' do
+        expect(PrivatePub).to receive(:publish_to)
+        post :create, answer_id: answer, comment: attributes_for(:comment), format: :json
+      end
+
+      it 'publishes the comment to PrivatePub' do
+        comment1 = create :comment, commentable: question, user: @user
+
+        allow(Comment).to receive(:new).and_return(comment1)
+        expect(PrivatePub).to receive(:publish_to).with("/question/#{question.id}/comments", comment: comment1.to_json)
+        post :create, answer_id: answer, comment: attributes_for(:comment), format: :json
+      end
     end
 
     context 'with invalid attributes' do
@@ -45,6 +58,11 @@ RSpec.describe CommentsController, type: :controller do
         invalid_comment.save
 
         expect(comment_json).to eq invalid_comment.errors.full_messages
+      end
+
+      it 'does not publishe to PrivatePub' do
+        expect(PrivatePub).not_to receive(:publish_to)
+        post :create, answer_id: answer, comment: attributes_for(:invalid_comment), format: :json
       end
     end
   end
@@ -69,6 +87,11 @@ RSpec.describe CommentsController, type: :controller do
       #   json = JSON.parse(response.body)
       #   expect(json['id']).to eq comment.id
       # end
+
+      it 'invokes publish to PrivatePub' do
+        expect(PrivatePub).to receive(:publish_to)
+        delete :destroy, id: comment.id, format: :json
+      end
     end
 
     context "somebody's comment" do
@@ -88,6 +111,11 @@ RSpec.describe CommentsController, type: :controller do
 
         json = JSON.parse(response.body)
         expect(json['status']).to eq 'error'
+      end
+
+      it 'does not publishe to PrivatePub' do
+        expect(PrivatePub).not_to receive(:publish_to)
+        delete :destroy, id: comment.id, format: :json
       end
     end
   end
