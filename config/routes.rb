@@ -1,4 +1,9 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web, at: '/sidekiq'
+  end
 
   use_doorkeeper
   concern :commentable do
@@ -24,6 +29,8 @@ Rails.application.routes.draw do
     resources :answers, only: [:destroy, :update, :create], shallow: true, concerns: [:commentable, :votable] do
       get :best
     end
+    post :subscribe
+    post :unsubscribe
   end
 
   resources :attachments, only: :destroy

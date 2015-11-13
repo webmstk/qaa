@@ -198,4 +198,54 @@ RSpec.describe User do
       expect(user.voted_for?(question)).to eq true
     end
   end
+
+  describe '#subscribe_to' do
+    let(:user) { create :user }
+    let!(:question) { create :question }
+    let(:subscription) { create :subscription }
+
+    it 'creates new Subscription' do
+      expect { user.subscribe_to(question) }.to change(Subscription, :count).by(1)
+    end
+
+    it 'create subscription with current question and user' do
+      user.subscribe_to(question)
+      subscription = Subscription.last
+
+      expect(subscription.question).to eq question
+      expect(subscription.user).to eq user
+    end
+
+    it 'does not duplicate subscriptions' do
+      same_user = subscription.user
+      same_question = subscription.question
+
+      expect { same_user.subscribe_to(same_question) }.to_not change(Subscription, :count)
+    end
+  end
+
+  describe '#unsubscribe_from' do
+    let(:user) { create :user }
+    let(:question) { create :question }
+    let!(:subscription) { create :subscription, question: question, user: user }
+
+    it 'destroys Subscription' do
+      expect { user.unsubscribe_from(question) }.to change(Subscription, :count).by(-1)
+    end
+  end
+
+  describe '#subscribed?' do
+    let(:user) { create :user }
+    let(:question) { create :question }
+
+    it 'returns true if user subscribed to question' do
+      expect(user.subscribed?(question)).to eq true
+    end
+
+    it 'returns false if user is not subscribed to question' do
+      create :subscription, question: question, user: user
+      expect(user.subscribed?(question)).to eq false
+    end
+  end
+
 end

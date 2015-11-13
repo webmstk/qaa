@@ -40,6 +40,9 @@ describe Ability do
 
       it { should be_able_to :destroy, question }
       it { should_not be_able_to :destroy, question_other }
+
+      it { should be_able_to :subscribe, Question }
+      it { should be_able_to :unsubscribe, Question }
     end
 
     describe 'Answer' do

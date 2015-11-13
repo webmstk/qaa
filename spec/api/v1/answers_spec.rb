@@ -8,7 +8,7 @@ describe 'Answers API' do
     let(:path) { "/api/v1/questions/#{question.id}/answers/" }
     let(:request_method) { :get }
 
-    it_behaves_like "API Authenticable"
+    it_behaves_like 'API Authenticable'
 
     context 'authorized' do
       let!(:answers) { create_list(:answer, 2, question: question) }
@@ -26,8 +26,7 @@ describe 'Answers API' do
 
       %w(id user_id body best created_at updated_at rating).each do |attr|
         it "contains #{attr}" do
-          # другой порядок сортировки ответов, как поправить?
-          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answers/1/#{attr}")
+          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answers/0/#{attr}")
         end
       end
     end

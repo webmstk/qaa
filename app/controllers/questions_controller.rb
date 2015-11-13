@@ -1,10 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :destroy, :update]
+  before_action :load_question, only: [:show, :destroy, :update, :subscribe, :unsubscribe]
   before_action :build_answer, only: :show
   before_action :build_comment, only: :show
 
   respond_to :html, :js
+  respond_to :json, only: [:subscribe, :unsubscribe]
 
   authorize_resource
 
@@ -37,10 +38,21 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def subscribe
+    current_user.subscribe_to(@question)
+    render json: {status: :subscribed}
+  end
+
+  def unsubscribe
+    current_user.unsubscribe_from(@question)
+    render json: {status: :unsubscribed}
+  end
+
   private
 
     def load_question
-      @question = Question.find(params[:id])
+      id = params[:question_id] ? params[:question_id] : params[:id]
+      @question = Question.find(id)
     end
 
     def question_params

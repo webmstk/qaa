@@ -142,8 +142,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not change question attributes' do
         question.reload
-        expect(question.title).to eq 'question title'
-        expect(question.body).to eq 'question body'
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
       end
 
       it 'renders :update view' do
@@ -183,6 +183,73 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirects to show view' do
         delete :destroy, id: another_user_question
         expect(response).to redirect_to root_path
+      end
+    end
+  end
+
+  describe 'POST #subscribe' do
+    sign_in_user
+    before { question }
+
+    context 'user has no subscription' do
+      it 'creates new Subscription' do
+        expect { post :subscribe, question_id: question }.to change(Subscription, :count).by(1)
+      end
+
+      it 'renders subscription object' do
+        post :subscribe, question_id: question, format: :json
+        obj = {status: :subscribed}
+
+        expect(response.body).to eq obj.to_json
+        # expect(response.body).to eq Subscription.last.to_json
+      end
+    end
+
+    context 'user has subscription' do
+      let!(:subscription) { create :subscription, question: question, user: @user }
+
+      it 'creates new Subscription' do
+        expect { post :subscribe, question_id: question }.to_not change(Subscription, :count)
+      end
+
+      it 'renders subscription object' do
+        post :subscribe, question_id: question, format: :json
+        obj = {status: :subscribed}
+
+        expect(response.body).to eq obj.to_json
+      end
+    end
+  end
+
+  describe 'POST #unsubscribe' do
+    sign_in_user
+    before { question }
+
+    context 'user has subscription' do
+      let!(:subscription) { create :subscription, question: question, user: @user }
+
+      it 'removes Subscription' do
+        expect { post :unsubscribe, question_id: question }.to change(Subscription, :count).by(-1)
+      end
+
+      it 'renders json with DELETED status' do
+        post :unsubscribe, question_id: question, format: :json
+        obj = {status: :unsubscribed}
+
+        expect(response.body).to eq obj.to_json
+      end
+    end
+
+    context 'user has no subscription' do
+      it 'creates new Subscription' do
+        expect { post :unsubscribe, question_id: question }.to_not change(Subscription, :count)
+      end
+
+      it 'renders json with DELETED status' do
+        post :unsubscribe, question_id: question, format: :json
+        obj = {status: :unsubscribed}
+
+        expect(response.body).to eq obj.to_json
       end
     end
   end

@@ -27,4 +27,17 @@ RSpec.describe Answer, type: :model do
     answer.reload
     expect(answer.best).to eq false
   end
+
+  describe '#notify_subscribers' do
+    let(:question) { create :question }
+    let(:answer) { build :answer, question: question }
+
+    it 'sends email to subscribers' do
+      # subscriptions = Subscription.where(question: question)
+      expect(answer).to receive(:notify_subscribers).and_call_original
+      expect(NotifySubscribersJob).to receive(:perform_later).with(answer)
+      answer.save
+    end
+
+  end
 end

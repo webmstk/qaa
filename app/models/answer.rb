@@ -9,6 +9,8 @@ class Answer < ActiveRecord::Base
 
   scope :sorted, -> { order(best: :desc, created_at: :asc) }
 
+  after_create :notify_subscribers
+
   def toggle_best
     #Answer.where({ question: self.question, best: true }).update_all(best: false)
 
@@ -21,5 +23,9 @@ class Answer < ActiveRecord::Base
       self.best = true
       self.save
     end
+  end
+
+  def notify_subscribers
+    NotifySubscribersJob.perform_later(self)
   end
 end

@@ -1,24 +1,29 @@
-  .wrap
-    .attributes
-      = render 'share/votes/rating', votable: @question
+.wrap
+  .attributes
+    = render 'share/votes/rating', votable: @question
 
-    .content
-      h2= @question.title
-      p= @question.body
-      - if @question.attachments.any?
-        p Прикрепленные файлы:
-        ul.question-files
-          - @question.attachments.each do |a|
-            li id="question-file-#{a.id}"
-              = link_to a.file.filename, a.file.url
-              - if user_signed_in? && current_user == a.attachable.user
-                span
-                  | &nbsp;[&nbsp;
-                  = link_to 'удалить', attachment_path(a), method: :delete, remote: true
-                  | &nbsp;]
+  .content
+    h2= @question.title
+    p= @question.body
+    - if @question.attachments.any?
+      p Прикрепленные файлы:
+      ul.question-files
+        - @question.attachments.each do |a|
+          li id="question-file-#{a.id}"
+            = link_to a.file.filename, a.file.url
+            - if user_signed_in? && current_user.id == a.attachable.user.id
+              span
+                | &nbsp;[&nbsp;
+                = link_to 'удалить', attachment_path(a), method: :delete, remote: true
+                | &nbsp;]
 
 
-      - if user_signed_in? && @question.user == current_user
-        .controls
+    .controls
+      - if user_signed_in?
+        - if @question.user_id == current_user.id
           = link_to 'редактировать', '', class: 'edit-question-link', data: { question_id: @question.id }
           = link_to 'удалить', question_path(@question), method: :delete
+        - if current_user.subscribed?(@question)
+          = link_to 'подписаться', question_subscribe_path(@question), class: 'subscribe-question', method: :post, remote: true
+        - else
+          = link_to 'отписаться', question_unsubscribe_path(@question), class: 'subscribe-question subscribed', method: :post, remote: true

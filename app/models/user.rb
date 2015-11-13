@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   def vote_for(votable)
     @vote ||= Vote.find_by(votable: votable, user: self)
   end
-  
+
 
   def voted_for?(votable)
     !!vote_for(votable)
@@ -70,4 +70,17 @@ class User < ActiveRecord::Base
     return user
   end
 
+  def subscribe_to(question)
+    Subscription.find_or_create_by(question: question, user: self)
+  end
+
+  def unsubscribe_from(question)
+    subscription = Subscription.find_by(question: question, user: self)
+    subscription.destroy unless subscription.nil?
+  end
+
+  def subscribed?(question)
+    subscription = Subscription.find_by(question_id: question.id, user: self)
+    return subscription.nil?
+  end
 end

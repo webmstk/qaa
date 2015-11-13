@@ -60,7 +60,21 @@ ready = ->
     question = $.parseJSON(data['question'])
     $('.questions').append(HandlebarsTemplates['question'](question))
     bind_vote_for_question()
-    
+
+
+  $('.question .subscribe-question').bind 'ajax:success', (e, data, status, xhr) ->
+    response = $.parseJSON(xhr.responseText)
+    question_id = $('.question').data('questionId')
+
+    if(response.status == 'subscribed')
+      $(this).addClass('subscribed')
+             .text('отписаться')
+             .attr('href', '/questions/' + question_id + '/unsubscribe')
+    else if(response.status == 'unsubscribed')
+      $(this).removeClass('subscribed')
+             .text('подписаться')
+             .attr('href', '/questions/' + question_id + '/subscribe')
+
 
 
 $(document).ready(ready)

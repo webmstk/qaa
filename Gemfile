@@ -18,6 +18,9 @@ gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
+gem 'sidekiq'
+gem 'whenever', require: false
+gem 'sinatra', require: false
 # gem 'responders'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -65,11 +68,12 @@ group :development, :test do
   gem 'spring-commands-rspec'
 
   gem 'rspec-rails', '~> 3.0'
+  gem 'guard-rspec'
 end
 
 group :test do
 	gem 'factory_girl_rails'
-	gem 'shoulda-matchers'
+	gem 'shoulda-matchers', require: false
   gem 'capybara'
   gem 'launchy'
   gem 'selenium-webdriver'
@@ -78,4 +82,5 @@ group :test do
   gem 'poltergeist', '1.6'
   gem 'capybara-email'
   gem 'json_spec'
+  gem 'faker'
 end

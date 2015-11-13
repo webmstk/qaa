@@ -10,6 +10,7 @@ RSpec.describe Question, type: :model do
   it { should have_many(:attachments).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should accept_nested_attributes_for :attachments }
 
@@ -102,7 +103,7 @@ RSpec.describe Question, type: :model do
       it 'should create vote with negative value' do
         question.rating_down(user)
         vote = Vote.last
-        
+
         expect(vote.value).to eq -1
       end
 
