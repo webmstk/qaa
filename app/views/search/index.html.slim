@@ -1,0 +1,41 @@
+div class="row search_input"
+  .col-lg-12
+    form action="/search" method="GET"
+      .input-group
+        input id="search_input" type="text" name="q" class="form-control" aria-label="..." value="#{params[:q]}"
+        input type="hidden" name="m" value="#{@models.has_key?(params[:m]) ? params[:m] : 'all'}"
+        .input-group-btn
+          button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            = @models.has_key?(params[:m]) ? @models[ params[:m] ] : 'Где искать'
+            span class="caret"
+          ul class="dropdown-menu dropdown-menu-right"
+            - @models.each do |model, name|
+              - if params[:m] == model
+                li.active
+                  a href="#" data-model="#{model}" = name
+              - else
+                li
+                  a href="#" data-model="#{model}" = name
+            li role="separator" class="divider"
+            - if !params[:m] || params[:m] == 'all'
+              li.active
+                a href="#" data-model="all" Все результаты
+            - else
+              li
+                a href="#" data-model="all" Все результаты
+          input type="submit" class="btn btn-default" value="Поиск"
+
+br
+
+#search_result
+  - @result.each do |model|
+    h4 = "#{model.model_name}:"
+    p
+      - if model.respond_to?(:title)
+        h5 = model.title
+      - elsif model.respond_to?(:email)
+        h5 = model.email
+
+      - if model.respond_to?(:body)
+        = highlight(model.body, params[:q])
+    br

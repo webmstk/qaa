@@ -1,0 +1,4 @@
+development:
+  morphology: lemmatize_ru
+test:
+production:

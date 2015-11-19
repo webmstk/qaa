@@ -47,6 +47,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'search' => 'search#index'
+
   root 'questions#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
