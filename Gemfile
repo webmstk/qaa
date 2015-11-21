@@ -25,6 +25,7 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'therubyracer'
 # gem 'responders'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
