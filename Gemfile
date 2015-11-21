@@ -23,6 +23,8 @@ gem 'whenever', require: false
 gem 'sinatra', require: false
 gem 'mysql2'
 gem 'thinking-sphinx'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 # gem 'responders'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -56,7 +58,17 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'letter_opener', group: :development
+group :development do
+  gem 'letter_opener'
+
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-passenger', require: false
+end
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -74,8 +86,8 @@ group :development, :test do
 end
 
 group :test do
-	gem 'factory_girl_rails'
-	gem 'shoulda-matchers', require: false
+  gem 'factory_girl_rails'
+  gem 'shoulda-matchers', require: false
   gem 'capybara'
   gem 'launchy'
   gem 'selenium-webdriver'
