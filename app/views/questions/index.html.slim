@@ -1,20 +1,21 @@
 - if @questions.any?
-  h2 Вопросы
-  .questions
-    - @questions.each do |question|
-      .question id="question-id-#{question.id}"
-        .attributes
-          = render 'share/votes/rating', votable: question
+  - cache collection_cache_key_for :question do
+    h2 Вопросы
+    .questions
+      - @questions.each do |question|
+        .question id="question-id-#{question.id}"
+          .attributes
+            = render 'share/votes/rating', votable: question
 
-        .content
-          = link_to question.title, question_path(question)
+          .content
+            = link_to question.title, question_path(question)
 
-          div= question.body
-          .controls
-            - if user_signed_in? && current_user.id == question.user_id
-              = link_to 'редактировать', question_path(question, edit: 'Y')
-              = link_to 'удалить', question_path(question), method: :delete,
-                                          id: "del_question_#{question.id}"
-      hr
+            div= question.body
+            .controls
+              - if user_signed_in? && current_user.id == question.user_id
+                = link_to 'редактировать', question_path(question, edit: 'Y')
+                = link_to 'удалить', question_path(question), method: :delete,
+                                            id: "del_question_#{question.id}"
+        hr
 
 = subscribe_to '/questions/index'

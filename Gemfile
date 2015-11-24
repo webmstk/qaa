@@ -27,6 +27,7 @@ gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
 gem 'unicorn'
+gem 'redis-rails'
 # gem 'responders'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

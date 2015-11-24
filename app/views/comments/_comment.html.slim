@@ -2,13 +2,14 @@
     .comments
       - if commentable.comments.any?
         - commentable.comments.each do |comment|
-          .comment id="comment-id-#{comment.id}"
-            = comment.body
-            - if user_signed_in? && current_user == comment.user
-              = link_to 'удалить', polymorphic_path(comment), remote: true,
-                                                              method: :delete,
-                                                              class: 'delete',
-                                                              id: "delete-comment-#{comment.id}"
+          - cache comment do
+            .comment id="comment-id-#{comment.id}"
+              = comment.body
+              - if user_signed_in? && current_user == comment.user
+                = link_to 'удалить', polymorphic_path(comment), remote: true,
+                                                                method: :delete,
+                                                                class: 'delete',
+                                                                id: "delete-comment-#{comment.id}"
     - if user_signed_in?
       .add_comment
         = link_to 'комментировать', '#', { data: { id: commentable.id, type: commentable.model_name.plural } }

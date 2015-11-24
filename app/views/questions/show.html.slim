@@ -1,45 +1,46 @@
-- if params['edit'] != 'Y'
-  - form_edit_class = 'hidden'
-- else
-  - show_question_class = 'hidden'
+- cache @question do
+  - if params['edit'] != 'Y'
+    - form_edit_class = 'hidden'
+  - else
+    - show_question_class = 'hidden'
 
-div id="question-id-#{@question.id}" data={question_id: "#{@question.id}"} class="#{show_question_class} question question-detail"
-  = render 'question'
-  = render 'comments/comment', commentable: @question
-hr
+  div id="question-id-#{@question.id}" data={question_id: "#{@question.id}"} class="#{show_question_class} question question-detail"
+    = render 'question'
+    = render 'comments/comment', commentable: @question
+  hr
 
-= form_for @question, html: { class: "edit-question #{form_edit_class}" }, remote: true do |f|
-  .form-group
-    = f.label :title
-    = f.text_field :title, class: 'form-control'
-  .form-group
-    = f.label :body
-    = f.text_area :body, class: 'form-control'
-  .form-group
-    = f.button 'Отмена', class: 'btn btn-default cancel'
-    = ' '
-    = f.submit 'Сохранить', class: 'btn btn-primary'
+  = form_for @question, html: { class: "edit-question #{form_edit_class}" }, remote: true do |f|
+    .form-group
+      = f.label :title
+      = f.text_field :title, class: 'form-control'
+    .form-group
+      = f.label :body
+      = f.text_area :body, class: 'form-control'
+    .form-group
+      = f.button 'Отмена', class: 'btn btn-default cancel'
+      = ' '
+      = f.submit 'Сохранить', class: 'btn btn-primary'
 
-  .question-errors.alert.alert-danger.hidden
+    .question-errors.alert.alert-danger.hidden
 
-h3 Ответы
-.answers
-  = render 'answers/answers', answers: @question.answers
-  / - if @answers.any?
-    / = render 'answers/answers', answers: @answers
-  / - else
-    / .no-answers На этот вопрос пока нет ответов
+  h3 Ответы
+  .answers
+    = render 'answers/answers', answers: @question.answers
+    / - if @answers.any?
+      / = render 'answers/answers', answers: @answers
+    / - else
+      / .no-answers На этот вопрос пока нет ответов
 
-= form_for([@question, @answer], remote: true) do |f|
-  .form-group
-    = f.label :body
-    = f.text_area :body, class: 'form-control'
-  .form-group
-    = f.fields_for :attachments do |a|
-      /= render 'attachment_fields', f: a
-    = link_to_add_association 'добавить файл', f, :attachments
-  .form-group
-    = f.submit 'Ответить', class: 'btn btn-default'
+  = form_for([@question, @answer], remote: true) do |f|
+    .form-group
+      = f.label :body
+      = f.text_area :body, class: 'form-control'
+    .form-group
+      = f.fields_for :attachments do |a|
+        /= render 'attachment_fields', f: a
+      = link_to_add_association 'добавить файл', f, :attachments
+    .form-group
+      = f.submit 'Ответить', class: 'btn btn-default'
 
 = subscribe_to "/question/#{@question.id}/answers"
 = subscribe_to "/question/#{@question.id}/comments"
